@@ -3,10 +3,10 @@ require_relative 'ViewHelper'
 class Node
   include ViewHelper
 
-  attr_reader :code 
+  attr_reader :code
 
-  def initialize
-    @code = :blank
+  def initialize(code = :blank)
+    @code = code
     @valid_codes = [:blank]
   end
   
@@ -19,12 +19,16 @@ class Node
     @code = code
   end
 
+  def self.valid_codes
+    return @valid_codes
+  end
+
 end
 
 class DecodingNode < Node
 
-  def initialize
-    @code = :blank
+  def initialize(code = :blank)
+    @code = code
     @valid_codes = [:blue, :red, :green, :purple, :yellow, :pink]
   end
 
@@ -37,8 +41,8 @@ end
 
 class FeedbackNode < Node
 
-  def initialize
-    @code = :blank
+  def initialize(code = :blank)
+    @code = code
     @valid_codes = [:grey, :white]
   end
 
