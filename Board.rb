@@ -1,7 +1,8 @@
 require_relative 'Node'
 
 class Board
-  
+  attr_reader :rows
+
   def initialize
     @rows = Array.new
     12.times do

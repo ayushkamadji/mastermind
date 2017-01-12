@@ -11,7 +11,7 @@ module ViewHelper
     when :red then return "0;31"
     when :yellow then return "1;33"
     when :purple then return "0;35"
-    when :pink then return "1;31"
+    when :cyan then return "1;36"
     when :grey then return "1;30"
     when :white then return "1;37"
     end

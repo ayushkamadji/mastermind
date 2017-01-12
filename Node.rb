@@ -7,29 +7,20 @@ class Node
 
   def initialize(code = :blank)
     @code = code
-    @valid_codes = [:blank]
   end
   
   def is_blank?
     return @code == :blank
   end
 
-  def update_code(code)
-    return print "Color not recognized" unless @valid_codes.include?(code)
-    @code = code
-  end
-
-  def self.valid_codes
-    return @valid_codes
-  end
-
 end
 
 class DecodingNode < Node
 
+  @@valid_codes = [:blue, :red, :green, :purple, :yellow, :cyan]
+
   def initialize(code = :blank)
     @code = code
-    @valid_codes = [:blue, :red, :green, :purple, :yellow, :pink]
   end
 
   def display
@@ -37,13 +28,23 @@ class DecodingNode < Node
     return nil
   end
 
+  def self.valid_codes
+    return @@valid_codes
+  end
+
+  def update_code(code)
+    return print "Color not recognized" unless @@valid_codes.include?(code)
+    @code = code
+  end
+
 end
 
 class FeedbackNode < Node
 
+  @@valid_codes = [:grey, :white]
+
   def initialize(code = :blank)
     @code = code
-    @valid_codes = [:grey, :white]
   end
 
   def display
@@ -51,4 +52,13 @@ class FeedbackNode < Node
     return nil
   end
   
+  def self.valid_codes
+    return @@valid_codes
+  end
+
+  def update_code(code)
+    return print "Color not recognized" unless @@valid_codes.include?(code)
+    @code = code
+  end
+
 end
