@@ -1,16 +1,23 @@
 require_relative 'Board'
 require_relative 'Player'
 require_relative 'GameHelper'
+require_relative 'Ai'
 
 class Game
   include GameHelper
 
   attr_accessor :code, :board # change back to reader later
 
-  def initialize
+  def initialize(player=:human)
     @board = Board.new
-    @player = Player.new
-    @code = generate_secret_code()
+    case player
+    when :human
+      @player = Player.new
+      @code = generate_secret_code()
+    when :ai
+      @player = Ai.new
+      @code = parse(prompt_secret_code)
+    end
     @gameover = false
     @tries = 11
   end
@@ -18,16 +25,21 @@ class Game
   def start
     display
     until @gameover
-      move = parse(@player.play)
+      move = parse(get_next_play)
       feedback = calculate_feedback(move)
       @board.update_row((11 - @tries), move, feedback)
       display
       @tries -= 1
       @gameover = true if has_winner? || @tries < 0
     end
+    if has_winner?
+      print "\nMastermindful! You broke the secret code!\n"
+    else
+      print "\nGame over...\n"
+    end
     show_code
   end
-  
+
   def has_winner?
     return @board.rows.any? do |row|
       row.feedback.all? { |fb| fb.code == :grey }
@@ -53,6 +65,12 @@ class Game
       end
     end
     return feedback
+  end
+
+  def get_next_play
+    move = @player.play if @player.is_a? Player
+    move = @player.play(@board) if @player.is_a? Ai
+    return move
   end
 
   # View
